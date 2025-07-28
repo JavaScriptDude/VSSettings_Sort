@@ -20,9 +20,10 @@ VSSettings_Sort is a command-line tool that parses Visual Studio settings files 
 
 ## Features
 
-- **Sorts three key element types:**
+- **Sorts four key element types:**
   - `PropertyValue` tags by their `name` attribute
   - `ToolsOptionsCategory` tags by their `name` attribute  
+  - `ToolsOptionsSubCategory` tags by their `name` attribute
   - `Category` tags by their `name` attribute (or `GUID` if no name exists)
 
 
@@ -53,16 +54,16 @@ python3 sort_vs_settings.py settings.vssettings -o settings_sorted.vssettings
 ```
 usage: sort_vs_settings.py [-h] -o OUTPUT input_file
 
-Sort Visual Studio settings file by PropertyValue, ToolsOptionsCategory, and
+Sort Visual Studio settings file by PropertyValue, ToolsOptionsCategory, ToolsOptionsSubCategory, and
 Category name attributes
 
 positional arguments:
   input_file            Path to the input .vssettings file
 
-named arguments:
+options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-                        Path to the output file (optional, defaults to stdout)
+                        Path to the output file (required)
 ```
 
 ### Examples
@@ -79,7 +80,7 @@ The script performs the following operations:
 
 1. **Parses the XML** using Python's built-in `xml.etree.ElementTree`
 2. **Recursively traverses** the XML tree structure
-3. **Identifies sortable elements** (PropertyValue, ToolsOptionsCategory, Category)
+3. **Identifies sortable elements** (PropertyValue, ToolsOptionsCategory, ToolsOptionsSubCategory, Category)
 4. **Sorts elements alphabetically** by their `name` or `GUID` attributes
 5. **Preserves all other elements** in their original order and structure
 6. **Formats the output** with proper indentation using tabs
@@ -119,6 +120,7 @@ The script specifically sorts these XML elements when they have a `name` or `GUI
 |---------|------------------|-------------|
 | `PropertyValue` | `name` | Individual setting values |
 | `ToolsOptionsCategory` | `name` | Major setting categories (Environment, Projects, etc.) |
+| `ToolsOptionsSubCategory` | `name` | Setting subcategories within major categories |
 | `Category` | `name` or `GUID` | Setting categories and subcategories |
 
 All other elements maintain their original order and structure.

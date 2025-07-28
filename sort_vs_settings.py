@@ -5,6 +5,7 @@ Visual Studio Settings XML Sorter
 This script parses a Visual Studio settings (.vssettings) file and sorts:
 - PropertyValue tags by their 'name' attribute
 - ToolsOptionsCategory tags by their 'name' attribute  
+- ToolsOptionsSubCategory tags by their 'name' attribute
 - Category tags by their 'name' attribute (or 'GUID' if no name)
 
 The output is a cleanly formatted XML with the specified tags sorted alphabetically.
@@ -27,10 +28,10 @@ def sort_key_for_element(element: ET.Element) -> str:
 def sort_children_recursively(element: ET.Element) -> None:
     """
     Recursively sort children elements that have 'name' or 'GUID' attributes.
-    Sorts PropertyValue, ToolsOptionsCategory, and Category tags.
+    Sorts PropertyValue, ToolsOptionsCategory, ToolsOptionsSubCategory, and Category tags.
     """
     # Tags we want to sort by their name/GUID attribute
-    sortable_tags = {'PropertyValue', 'ToolsOptionsCategory', 'Category'}
+    sortable_tags = {'PropertyValue', 'ToolsOptionsCategory', 'ToolsOptionsSubCategory', 'Category'}
     
     # Get children that should be sorted
     children_list = list(element)
@@ -127,7 +128,7 @@ def process_settings_file(input_file: str, output_file: Optional[str] = None) ->
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description="Sort Visual Studio settings file by PropertyValue, ToolsOptionsCategory, and Category name attributes"
+        description="Sort Visual Studio settings file by PropertyValue, ToolsOptionsCategory, ToolsOptionsSubCategory, and Category name attributes"
     )
     parser.add_argument(
         'input_file',
